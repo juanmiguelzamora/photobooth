@@ -5,10 +5,14 @@ const snapButton = document.getElementById('snap');
 const saveButton = document.getElementById('save');
 const photosContainer = document.getElementById('photos');
 const context = canvas.getContext('2d');
+const backgroundSelector = document.getElementById('background-selector');
+const filterSelector = document.getElementById('filter-selector');
 const instructionText = document.getElementById('instruction');
 
 let capturedPhotos = [];  // Store the captured images
 let photoCount = 0;       // Keep track of how many photos are taken
+let selectedBackground = 'none';
+let selectedFilter = 'none';
 
 // Set up video stream from the user's webcam
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -38,6 +42,15 @@ snapButton.addEventListener('click', () => {
     }
 });
 
+// Background and Filter Change Handlers
+backgroundSelector.addEventListener('change', (event) => {
+    selectedBackground = event.target.value;
+});
+
+filterSelector.addEventListener('change', (event) => {
+    selectedFilter = event.target.value;
+});
+
 // Save the collage when the 'Save Collage' button is clicked
 saveButton.addEventListener('click', () => {
     if (capturedPhotos.length === 3) {
@@ -50,23 +63,40 @@ saveButton.addEventListener('click', () => {
         collageCanvas.width = collageWidth;
         collageCanvas.height = collageHeight;
 
-        // Draw the three images vertically on the new canvas
-        for (let i = 0; i < 3; i++) {
-            const img = new Image();
-            img.src = capturedPhotos[i];
-            img.onload = function() {
-                collageContext.drawImage(img, 0, i * canvas.height, collageWidth, canvas.height);
+        // Draw the background if any is selected
+        if (selectedBackground !== 'none') {
+            const background = new Image();
+            background.src = `${selectedBackground}.jpg`; // Assuming backgrounds are stored in the same directory
+            background.onload = function () {
+                collageContext.drawImage(background, 0, 0, collageWidth, collageHeight);
+                drawPhotosOnCanvas();
             };
+        } else {
+            drawPhotosOnCanvas();
         }
 
-        // When all images are drawn, enable downloading
-        setTimeout(() => {
-            const dataUrl = collageCanvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = dataUrl;
-            link.download = 'photo-booth-collage.png';
-            link.click();
-        }, 1000); // Delay to ensure images are drawn properly
+        // Function to draw photos on the collage
+        function drawPhotosOnCanvas() {
+            // Draw the three images vertically on the new canvas
+            for (let i = 0; i < 3; i++) {
+                const img = new Image();
+                img.src = capturedPhotos[i];
+                img.onload = function () {
+                    // Apply the filter if any is selected
+                    collageContext.filter = getCanvasFilter(selectedFilter);
+                    collageContext.drawImage(img, 0, i * canvas.height, collageWidth, canvas.height);
+                };
+            }
+
+            // When all images are drawn, enable downloading
+            setTimeout(() => {
+                const dataUrl = collageCanvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = dataUrl;
+                link.download = 'photo-booth-collage.png';
+                link.click();
+            }, 1000); // Delay to ensure images are drawn properly
+        }
     }
 });
 
@@ -75,3 +105,17 @@ video.addEventListener('loadedmetadata', () => {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
 });
+
+// Get canvas filter based on user selection
+function getCanvasFilter(filter) {
+    switch (filter) {
+        case 'sepia':
+            return 'sepia(1)';
+        case 'grayscale':
+            return 'grayscale(1)';
+        case 'invert':
+            return 'invert(1)';
+        default:
+            return 'none';
+    }
+}
