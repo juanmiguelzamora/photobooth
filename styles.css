@@ -1,36 +1,79 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+/* Global Styles */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f7c8d1, #e8b5c4); /* Soft pink gradient */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
 }
 
 .photo-booth {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    padding: 30px;
+    text-align: center;
+    transform: translateY(10px);
+    animation: fadeInUp 1s ease-in-out;
 }
 
 h1 {
-    font-size: 1.8em;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #4b4b4b;
     margin-bottom: 20px;
+    letter-spacing: 1px;
 }
 
+button {
+    background-color: #ff6b81; /* Elegant pink */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 40px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #ff4d6d;
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Camera container and video setup */
 #camera-container {
     position: relative;
-    display: inline-block;
-    width: 100%;
+    margin: 0 auto 20px;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 video {
     width: 100%;
     height: auto;
-    border-radius: 10px;
+    border-radius: 16px;
 }
 
 canvas {
@@ -40,108 +83,129 @@ canvas {
     width: 100%;
     height: 100%;
     display: none;
-    border-radius: 10px;
+    border-radius: 16px;
 }
 
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-#photos {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
-}
-
-#photos img {
-    width: 100px;
-    height: 100px;
-    margin: 5px;
+/* Select background */
+#backgrounds select {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
     border-radius: 8px;
-}
-
-/* Background and Filter Options */
-#backgrounds, #filters, #invert-camera {
-    margin-top: 20px;
-}
-
-#backgrounds select, #filters select, #invert-camera button {
-    padding: 5px 10px;
-    font-size: 16px;
+    padding: 10px;
+    font-size: 1.1em;
     margin-top: 10px;
 }
 
+#backgrounds {
+    margin-top: 20px;
+}
+
+/* Instruction text */
+#instruction {
+    font-size: 1.1em;
+    color: #555;
+    margin-top: 20px;
+}
+
+/* Collage Images */
+#photos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+#photos img {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#photos img:hover {
+    transform: scale(1.05);
+}
+
+/* Elegant background and button selections */
+#backgrounds h2,
+#filters h2 {
+    font-size: 1.3em;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
 /* Responsive Styles */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .photo-booth {
-        padding: 15px;
+        padding: 20px;
+        width: 90%;
     }
 
     h1 {
-        font-size: 1.5em;
+        font-size: 2em;
     }
 
     video {
-        max-width: 100%;
+        width: 100%;
         height: auto;
     }
 
-    canvas {
-        max-width: 100%;
+    #photos img {
+        width: 100px;
+        height: 100px;
+    }
+
+    button {
+        padding: 10px 35px;
+    }
+
+    #backgrounds select {
+        font-size: 1em;
+        padding: 8px;
+    }
+
+    #instruction {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-booth {
+        padding: 15px;
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 1.6em;
+    }
+
+    video {
+        width: 100%;
         height: auto;
     }
 
     button {
-        padding: 8px 16px;
-        font-size: 14px;
+        width: 100%;
+        padding: 12px 30px;
     }
 
     #photos img {
         width: 80px;
         height: 80px;
     }
-
-    #camera-container {
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
 }
 
-@media (max-width: 400px) {
-    .photo-booth {
-        padding: 10px;
+/* Animation for fade-in */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
     }
-
-    h1 {
-        font-size: 1.3em;
-    }
-
-    video {
-        max-width: 100%;
-        height: auto;
-    }
-
-    button {
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
-    }
-
-    #photos img {
-        width: 70px;
-        height: 70px;
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
