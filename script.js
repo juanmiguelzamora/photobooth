@@ -87,7 +87,7 @@ saveButton.addEventListener('click', () => {
                 link.href = dataUrl;
                 link.download = 'photo-booth-collage.png';
                 link.click();
-            }, 1000); // Delay to ensure images are drawn properly
+            }, 1000);
         }
     }
 });
