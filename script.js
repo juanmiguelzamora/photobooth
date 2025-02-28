@@ -23,10 +23,22 @@ snapButton.addEventListener('click', () => {
 
 // Save the photo when the 'Save Photo' button is clicked
 saveButton.addEventListener('click', () => {
-    const dataUrl = canvas.toDataURL('image/png');
+    const dataUrl = canvas.toDataURL('image/png'); // Convert canvas to PNG data URL
+
+    // Create a temporary download link
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = 'photo-booth-image.png'; // Name of the downloaded file
+
+    // Trigger a click event on the link to start the download
+    link.click();
+
+    // Optionally, you can display the image in the gallery as well
     const img = document.createElement('img');
     img.src = dataUrl;
     photosContainer.appendChild(img);
+
+    // Hide canvas again
     canvas.style.display = 'none';
 });
 
