@@ -74,11 +74,11 @@ button:hover {
 }
 
 /* Background and Filter Options */
-#backgrounds, #filters {
+#backgrounds, #filters, #invert-camera {
     margin-top: 20px;
 }
 
-#backgrounds select, #filters select {
+#backgrounds select, #filters select, #invert-camera button {
     padding: 5px 10px;
     font-size: 16px;
     margin-top: 10px;

@@ -7,12 +7,14 @@ const photosContainer = document.getElementById('photos');
 const context = canvas.getContext('2d');
 const backgroundSelector = document.getElementById('background-selector');
 const filterSelector = document.getElementById('filter-selector');
+const invertButton = document.getElementById('invert-button');
 const instructionText = document.getElementById('instruction');
 
 let capturedPhotos = [];  // Store the captured images
 let photoCount = 0;       // Keep track of how many photos are taken
 let selectedBackground = 'none';
 let selectedFilter = 'none';
+let cameraInverted = false;
 
 // Set up video stream from the user's webcam
 navigator.mediaDevices.getUserMedia({ video: true })
@@ -49,6 +51,16 @@ backgroundSelector.addEventListener('change', (event) => {
 
 filterSelector.addEventListener('change', (event) => {
     selectedFilter = event.target.value;
+});
+
+// Invert Camera Feed
+invertButton.addEventListener('click', () => {
+    cameraInverted = !cameraInverted;
+    if (cameraInverted) {
+        video.style.transform = "scaleX(-1)"; // Inverts the video feed horizontally
+    } else {
+        video.style.transform = "scaleX(1)"; // Restores original orientation
+    }
 });
 
 // Save the collage when the 'Save Collage' button is clicked
