@@ -59,17 +59,17 @@ button:hover {
 }
 
 #photos {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 images per row */
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin-top: 30px;
 }
 
 #photos img {
-    width: 100%;
-    height: auto;
-    max-width: 100px; /* Keep images small */
+    width: 100px;
+    height: 100px;
+    margin: 5px;
     border-radius: 8px;
 }
 
