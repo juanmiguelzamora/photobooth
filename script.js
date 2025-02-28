@@ -16,9 +16,11 @@ let selectedBackground = 'none';
 navigator.mediaDevices.getUserMedia({ video: true })
     .then((stream) => {
         video.srcObject = stream;
+        video.play(); // Ensure the video starts playing once the stream is ready
     })
     .catch((err) => {
         console.log("Error accessing webcam: ", err);
+        alert("Failed to access the camera. Please ensure you grant camera permissions.");
     });
 
 // Take a snapshot when the 'Take Photo' button is clicked
@@ -87,7 +89,7 @@ saveButton.addEventListener('click', () => {
                 link.href = dataUrl;
                 link.download = 'photo-booth-collage.png';
                 link.click();
-            }, 1000);
+            }, 1000); // Delay to ensure images are drawn properly
         }
     }
 });
